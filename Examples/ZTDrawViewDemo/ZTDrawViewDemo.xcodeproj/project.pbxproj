@@ -1,0 +1,310 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4B55614414FE9C5900F2C23F /* UIBezierPath+ZTKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B55614314FE9C5900F2C23F /* UIBezierPath+ZTKit.m */; };
+		4B7CF79F14F45FFB00423576 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B7CF79E14F45FFB00423576 /* UIKit.framework */; };
+		4B7CF7A114F45FFB00423576 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B7CF7A014F45FFB00423576 /* Foundation.framework */; };
+		4B7CF7A314F45FFB00423576 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B7CF7A214F45FFB00423576 /* CoreGraphics.framework */; };
+		4B7CF7A914F45FFB00423576 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4B7CF7A714F45FFB00423576 /* InfoPlist.strings */; };
+		4B7CF7AB14F45FFB00423576 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7CF7AA14F45FFB00423576 /* main.m */; };
+		4B7CF7AF14F45FFB00423576 /* ZTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7CF7AE14F45FFB00423576 /* ZTAppDelegate.m */; };
+		4B7CF7B214F45FFB00423576 /* ZTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7CF7B114F45FFB00423576 /* ZTViewController.m */; };
+		4B7CF7B514F45FFB00423576 /* ZTViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7CF7B314F45FFB00423576 /* ZTViewController_iPhone.xib */; };
+		4B7CF7B814F45FFB00423576 /* ZTViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B7CF7B614F45FFB00423576 /* ZTViewController_iPad.xib */; };
+		4B7CF7C014F460AC00423576 /* ZTDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7CF7BF14F460AC00423576 /* ZTDrawView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4B55614214FE9C5900F2C23F /* UIBezierPath+ZTKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+ZTKit.h"; sourceTree = "<group>"; };
+		4B55614314FE9C5900F2C23F /* UIBezierPath+ZTKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+ZTKit.m"; sourceTree = "<group>"; };
+		4B7CF79A14F45FFB00423576 /* ZTDrawViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZTDrawViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B7CF79E14F45FFB00423576 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4B7CF7A014F45FFB00423576 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4B7CF7A214F45FFB00423576 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4B7CF7A614F45FFB00423576 /* ZTDrawViewDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZTDrawViewDemo-Info.plist"; sourceTree = "<group>"; };
+		4B7CF7A814F45FFB00423576 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4B7CF7AA14F45FFB00423576 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4B7CF7AC14F45FFB00423576 /* ZTDrawViewDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZTDrawViewDemo-Prefix.pch"; sourceTree = "<group>"; };
+		4B7CF7AD14F45FFB00423576 /* ZTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZTAppDelegate.h; sourceTree = "<group>"; };
+		4B7CF7AE14F45FFB00423576 /* ZTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZTAppDelegate.m; sourceTree = "<group>"; };
+		4B7CF7B014F45FFB00423576 /* ZTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZTViewController.h; sourceTree = "<group>"; };
+		4B7CF7B114F45FFB00423576 /* ZTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZTViewController.m; sourceTree = "<group>"; };
+		4B7CF7B414F45FFB00423576 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZTViewController_iPhone.xib; sourceTree = "<group>"; };
+		4B7CF7B714F45FFB00423576 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZTViewController_iPad.xib; sourceTree = "<group>"; };
+		4B7CF7BE14F460AC00423576 /* ZTDrawView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTDrawView.h; sourceTree = "<group>"; };
+		4B7CF7BF14F460AC00423576 /* ZTDrawView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTDrawView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4B7CF79714F45FFB00423576 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B7CF79F14F45FFB00423576 /* UIKit.framework in Frameworks */,
+				4B7CF7A114F45FFB00423576 /* Foundation.framework in Frameworks */,
+				4B7CF7A314F45FFB00423576 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4B7CF78F14F45FFB00423576 = {
+			isa = PBXGroup;
+			children = (
+				4B55614214FE9C5900F2C23F /* UIBezierPath+ZTKit.h */,
+				4B55614314FE9C5900F2C23F /* UIBezierPath+ZTKit.m */,
+				4B7CF7BE14F460AC00423576 /* ZTDrawView.h */,
+				4B7CF7BF14F460AC00423576 /* ZTDrawView.m */,
+				4B7CF7A414F45FFB00423576 /* ZTDrawViewDemo */,
+				4B7CF79D14F45FFB00423576 /* Frameworks */,
+				4B7CF79B14F45FFB00423576 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4B7CF79B14F45FFB00423576 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4B7CF79A14F45FFB00423576 /* ZTDrawViewDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4B7CF79D14F45FFB00423576 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4B7CF79E14F45FFB00423576 /* UIKit.framework */,
+				4B7CF7A014F45FFB00423576 /* Foundation.framework */,
+				4B7CF7A214F45FFB00423576 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4B7CF7A414F45FFB00423576 /* ZTDrawViewDemo */ = {
+			isa = PBXGroup;
+			children = (
+				4B7CF7AD14F45FFB00423576 /* ZTAppDelegate.h */,
+				4B7CF7AE14F45FFB00423576 /* ZTAppDelegate.m */,
+				4B7CF7B014F45FFB00423576 /* ZTViewController.h */,
+				4B7CF7B114F45FFB00423576 /* ZTViewController.m */,
+				4B7CF7B314F45FFB00423576 /* ZTViewController_iPhone.xib */,
+				4B7CF7B614F45FFB00423576 /* ZTViewController_iPad.xib */,
+				4B7CF7A514F45FFB00423576 /* Supporting Files */,
+			);
+			path = ZTDrawViewDemo;
+			sourceTree = "<group>";
+		};
+		4B7CF7A514F45FFB00423576 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4B7CF7A614F45FFB00423576 /* ZTDrawViewDemo-Info.plist */,
+				4B7CF7A714F45FFB00423576 /* InfoPlist.strings */,
+				4B7CF7AA14F45FFB00423576 /* main.m */,
+				4B7CF7AC14F45FFB00423576 /* ZTDrawViewDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4B7CF79914F45FFB00423576 /* ZTDrawViewDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4B7CF7BB14F45FFB00423576 /* Build configuration list for PBXNativeTarget "ZTDrawViewDemo" */;
+			buildPhases = (
+				4B7CF79614F45FFB00423576 /* Sources */,
+				4B7CF79714F45FFB00423576 /* Frameworks */,
+				4B7CF79814F45FFB00423576 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZTDrawViewDemo;
+			productName = ZTDrawViewDemo;
+			productReference = 4B7CF79A14F45FFB00423576 /* ZTDrawViewDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4B7CF79114F45FFB00423576 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ZT;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Zachry Thayer";
+			};
+			buildConfigurationList = 4B7CF79414F45FFB00423576 /* Build configuration list for PBXProject "ZTDrawViewDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4B7CF78F14F45FFB00423576;
+			productRefGroup = 4B7CF79B14F45FFB00423576 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4B7CF79914F45FFB00423576 /* ZTDrawViewDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4B7CF79814F45FFB00423576 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B7CF7A914F45FFB00423576 /* InfoPlist.strings in Resources */,
+				4B7CF7B514F45FFB00423576 /* ZTViewController_iPhone.xib in Resources */,
+				4B7CF7B814F45FFB00423576 /* ZTViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4B7CF79614F45FFB00423576 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B7CF7AB14F45FFB00423576 /* main.m in Sources */,
+				4B7CF7AF14F45FFB00423576 /* ZTAppDelegate.m in Sources */,
+				4B7CF7B214F45FFB00423576 /* ZTViewController.m in Sources */,
+				4B7CF7C014F460AC00423576 /* ZTDrawView.m in Sources */,
+				4B55614414FE9C5900F2C23F /* UIBezierPath+ZTKit.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4B7CF7A714F45FFB00423576 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4B7CF7A814F45FFB00423576 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4B7CF7B314F45FFB00423576 /* ZTViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4B7CF7B414F45FFB00423576 /* en */,
+			);
+			name = ZTViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		4B7CF7B614F45FFB00423576 /* ZTViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4B7CF7B714F45FFB00423576 /* en */,
+			);
+			name = ZTViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4B7CF7B914F45FFB00423576 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4B7CF7BA14F45FFB00423576 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4B7CF7BC14F45FFB00423576 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ZTDrawViewDemo/ZTDrawViewDemo-Prefix.pch";
+				INFOPLIST_FILE = "ZTDrawViewDemo/ZTDrawViewDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4B7CF7BD14F45FFB00423576 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ZTDrawViewDemo/ZTDrawViewDemo-Prefix.pch";
+				INFOPLIST_FILE = "ZTDrawViewDemo/ZTDrawViewDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4B7CF79414F45FFB00423576 /* Build configuration list for PBXProject "ZTDrawViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B7CF7B914F45FFB00423576 /* Debug */,
+				4B7CF7BA14F45FFB00423576 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4B7CF7BB14F45FFB00423576 /* Build configuration list for PBXNativeTarget "ZTDrawViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B7CF7BC14F45FFB00423576 /* Debug */,
+				4B7CF7BD14F45FFB00423576 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4B7CF79114F45FFB00423576 /* Project object */;
+}
