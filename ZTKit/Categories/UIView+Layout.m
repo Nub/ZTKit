@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Yoshimi Robotics. All rights reserved.
 //
 
-#import "UIView+Additions.h"
+#import "UIView+Layout.h"
 
 @implementation UIView (SubviewTools)
 

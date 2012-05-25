@@ -7,15 +7,16 @@
 //
 
 #import "ZTInfinitePagedV.h"
-
-#define PerformSafeSelectorWithObject(Target, Selector, Object) (([Target respondsToSelector:Selector])?[Target performSelector:Selector withObject:Object]:nil)
-
-#define PerformSafeSelector(Target, Selector) (([Target respondsToSelector:Selector])?[Target performSelector:Selector]:nil)
+#import "ZTHelpers.h"
 
 @interface ZTInfinitePagedV ()
 
-- (void)initialize;
+@property (nonatomic, strong) NSMutableArray*pagedViews;
+@property (nonatomic, readwrite) NSInteger page;
+@property (nonatomic) BOOL infinitePaging;
 
+
+- (void)initialize;
 
 - (void)gotoNextPage;
 - (NSInteger)nextPageIndex;
@@ -27,117 +28,107 @@
 
 @implementation ZTInfinitePagedV
 
-@synthesize delegate = delegate;
-@synthesize dataSource = dataSource;
+#pragma mark Private properties
 
-@synthesize pageViewControllers = pageViewControllers;
-@synthesize page = page;
+@synthesize pagedViews;
+
+#pragma mark Public properties
+
+@synthesize delegate;
+@synthesize dataSource;
+@synthesize page;
 
 @synthesize infinitePaging;
 
 #pragma mark - Lifecycle
 
-- (id)initWithCoder:(NSCoder *)aDecoder{
-    
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        
-        [self initialize];
-        
-    }
-    
-    return self;
-    
-}
-
-- (id)initWithFrame:(CGRect)frame{
-    
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-        [self initialize];
-        
-    }
-    
-    return self;
-    
-}
-
-- (id)init
+ZTKViewInitialize
 {
-    self = [super init];
-    if (self) {
+    
+    self.pagedViews = [NSMutableArray array];
 
-        [self initialize];
-        
-    }
+    CGSize newSize = self.frame.size;
+    newSize.width *= 3;//3 views max, each view should be the size of the container
+    self.contentSize = newSize;
     
-    return self;
-}
-
-- (void)dealloc{
+    self.infinitePaging = YES;
+    self.page = 0;
     
-    [pageViewControllers release], pageViewControllers = nil;
-    
-    [super dealloc];
+    [super setDelegate: self];
+    [super setPagingEnabled:YES];
     
 }
 
-- (void)setDataSource:(id<ZTInfinitePagedVDataSource>)newDataSource{
+- (void)dealloc
+{
+    self.pagedViews = nil;
+    
+}
+
+#pragma mark Setters
+
+- (void)setDataSource:(id<ZTInfinitePagedVDataSource>)newDataSource
+{
     
     dataSource = newDataSource;
     
-    NSInteger pageCount = [dataSource numberOfPagesInPagedView:self];
-    
-    NSAssert((pageCount >= 3), @"ZTInfinitePagedV Requires at least 3 subviews");
-    
-    CGFloat pageWidth = self.frame.size.width;
-    
-    for (NSInteger i = 0; i < 3; i++) {
-        
-        UIViewController *newController = [dataSource pagedView:self viewControllerForPage:i];
-        
-        CGRect adjustedFrame = newController.view.frame;
-        adjustedFrame.origin.x = pageWidth * i;
-        adjustedFrame.origin.y = 0;
-        newController.view.frame = adjustedFrame;
-        
-        [self addSubview:newController.view];
-        
-        [self.pageViewControllers addObject:newController];
-        
+    if (!dataSource)
+    {
+        // Purge views
     }
     
-     [self setContentOffset:CGPointMake(pageWidth, 0)];
+    NSInteger pageCount = [dataSource numberOfPagesInPagedView:self];
     
-     _internalPage = 1;
+    if (self.infinitePaging)
+    {
+        self.page = pageCount - 2;
+    }
     
+    NSAssert((pageCount >= 3), @"ZTInfinitePagedV Requires at least 3 subviews");
+    CGFloat pageWidth = self.frame.size.width;
+        
+    // Load first 3 views
+    for (NSInteger i = 0; i < 3; i++) 
+    {
+        self.page = [self nextPageIndex];
+        UIView *aView = [dataSource pagedView:self viewForPage:self.page];
+                
+        CGRect adjustedFrame = aView.frame;
+        adjustedFrame.origin.x = pageWidth * i;
+        adjustedFrame.origin.y = 0;
+        aView.frame = adjustedFrame;
+        
+        [self addSubview:aView];
+        [self.pagedViews addObject:aView];
+    }
+    
+    self.page = 0;
+    
+    [self setContentOffset:CGPointMake(pageWidth, 0)];
+    [self setNeedsLayout];
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Layout
 
-- (void)layoutSubviews{
+- (void)layoutSubviews
+{
         
     CGFloat pageWidth = self.frame.size.width;
     
     NSInteger pageIndex = 0;
     
-    for (UIView *subView in self.subviews) {
-        // if (subView.frame.size.width != 7) {//If not scrollbar
-            
-            CGRect adjustedFrame = subView.frame;
-            adjustedFrame.origin.x = pageWidth * pageIndex;
-            subView.frame = adjustedFrame;
-            
-            pageIndex ++;
-            
-        //  }
+    for (UIView *subView in self.pagedViews) 
+    {
+        CGRect adjustedFrame = subView.frame;
+        adjustedFrame.origin.x = pageWidth * pageIndex;
+        subView.frame = adjustedFrame;
+        
+        pageIndex ++;   
     }
     
     
     [super layoutSubviews];
-
-    
 }
 
 
@@ -146,9 +137,10 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     CGFloat pageWidth = self.frame.size.width;
-    _internalPage = floorf(self.contentOffset.x / pageWidth);
+    NSInteger direction = floorf(self.contentOffset.x / pageWidth);
     
-    switch (_internalPage) {
+    switch (direction)
+    {
         case 0:
             [self gotoPreviousPage];
             break;
@@ -156,117 +148,115 @@
             [self gotoNextPage];
             break;
     }
+    
     [self setContentOffset:CGPointMake(pageWidth, 0)];
+    [self setNeedsLayout];
+    [self.delegate pagedView:self didFocusePage:self.page];
+}
 
-    if (infinitePaging) {
-        _internalPage = 1;
-        //[self setContentOffset:CGPointMake(pageWidth, 0)];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat pageWidth = self.frame.size.width;
+    CGFloat xOffset = self.contentOffset.x;
+    
+    if (xOffset < 0)
+    {
+        [self gotoPreviousPage];
+        [self setContentOffset:CGPointMake(pageWidth, 0)];
+    }
+    
+    if (xOffset > pageWidth * 2)
+    {
+        [self gotoNextPage];
+        [self setContentOffset:CGPointMake(pageWidth, 0)];
     }
 
 }
 
 #pragma mark - Private Helpers
 
-- (void)initialize{
-    
-    self.pageViewControllers = [NSMutableArray array];
-    
-    CGSize newSize = self.frame.size;
-    newSize.width *= 3;//3 views max, each view should be the size of the container
-    self.contentSize = newSize;
-    
-    infinitePaging = YES;
-    _internalPage = 1;
-    page = 1;
-    
-    [super setDelegate: self];
-    [super setPagingEnabled:YES];
-    
-}
-
 #define kZTInfinitePagedVLeftPageIndex   0
 #define kZTInfinitePagedVFocusPageIndex  1
 #define kZTInfinitePagedVRightPageIndex  2
 
-- (void)gotoNextPage{
-        
+- (void)gotoNextPage
+{
+    NSLog(@"NextPage");
+    NSLog(@"currPage = %i", self.page);
     NSInteger removePageIndex = [self previousPageIndex];
-    page = [self nextPageIndex];
+    self.page = [self nextPageIndex];
     NSInteger addPageIndex = [self nextPageIndex];
+    NSLog(@"newPage = %i", self.page);
+    NSLog(@"addPage = %i", addPageIndex);
         
+    UIView *removeView = [self.pagedViews objectAtIndex:0];
     
-    UIViewController *removeViewController = [pageViewControllers objectAtIndex:kZTInfinitePagedVLeftPageIndex];
-    UIView *removeView = removeViewController.view;
-    
-    UIViewController *addViewController = [dataSource pagedView:self viewControllerForPage:addPageIndex];
-    UIView *addView = addViewController.view;
+    [self.delegate pagedView:self willNeedPage:addPageIndex];
+    UIView *addView = [self.dataSource pagedView:self viewForPage:addPageIndex];
 
+    //Remove from front append to tail
+    [self.delegate pagedView:self willNoLongerNeedPage:removePageIndex];
     [removeView removeFromSuperview];
+    [self.pagedViews removeObjectAtIndex:0];
+
     [self addSubview:addView];
+    [self.pagedViews addObject:addView];
     [self setNeedsLayout];
-    
-    [pageViewControllers removeObject:removeViewController];
-    [pageViewControllers addObject:addViewController];//tail
-    
 }
 
-- (NSInteger) nextPageIndex{
+- (NSInteger)nextPageIndex
+{
+    NSInteger nextPage = self.page + 1;
     
-    NSInteger nextPage = page + 1;
-    
-    if (nextPage >= [dataSource numberOfPagesInPagedView:self]) {
-        
-        if (infinitePaging)//Wrap
+    if (nextPage >= [self.dataSource numberOfPagesInPagedView:self])
+    {
+        if (self.infinitePaging)//Wrap
             nextPage = 0;
         else
-            nextPage = page;
-        
-        
+            nextPage = self.page;
     }
     
     return nextPage;
 }
 
-- (void)gotoPreviousPage{
-    
+- (void)gotoPreviousPage
+{    
+    NSLog(@"PreviousPage");
+    NSLog(@"currPage = %i", self.page);
     NSInteger removePageIndex = [self nextPageIndex];
-    page = [self previousPageIndex];
+    self.page = [self previousPageIndex];
     NSInteger addPageIndex = [self previousPageIndex];
+    NSLog(@"newPage = %i", self.page);
+    NSLog(@"addPage = %i", addPageIndex);
     
+    UIView *removeView = [self.pagedViews lastObject];  
     
-    UIViewController *removeViewController = [pageViewControllers objectAtIndex:kZTInfinitePagedVRightPageIndex];
-    UIView *removeView = removeViewController.view;
+    [self.delegate pagedView:self willNeedPage:addPageIndex];
+    UIView *addView = [self.dataSource pagedView:self viewForPage:addPageIndex];
     
-    UIViewController *addViewController = [dataSource pagedView:self viewControllerForPage:addPageIndex];
-    UIView *addView = addViewController.view;
-    
+    //Remove view and add new view to front of stack
+    [self.delegate pagedView:self willNoLongerNeedPage:removePageIndex];
     [removeView removeFromSuperview];
+    [self.pagedViews removeLastObject];
+    
     [self addSubview:addView];
-    [self sendSubviewToBack:addView];
-   
+    [self.pagedViews insertObject:addView atIndex:0];
     [self setNeedsLayout];
-    
-    [pageViewControllers removeObject:removeViewController];
-    [pageViewControllers insertObject:addViewController atIndex:0];//head
-    
 }
 
-- (NSInteger)previousPageIndex{
+- (NSInteger)previousPageIndex
+{
+    NSInteger prevPage = self.page - 1;
     
-    NSInteger nextPage = page - 1;
-    
-    if (nextPage < 0) {
-        
-        if (infinitePaging)//Wrap
-            nextPage = [dataSource numberOfPagesInPagedView:self] - 1;
+    if (prevPage < 0) 
+    {
+        if (self.infinitePaging)//Wrap
+            prevPage = [self.dataSource numberOfPagesInPagedView:self] - 1;
         else
-            nextPage = page;
-        
-        
+            prevPage = self.page;
     }
     
-    return nextPage;
-       
+    return prevPage;
 }
 
 @end

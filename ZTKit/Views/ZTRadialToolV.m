@@ -6,8 +6,9 @@
 //  Copyright (c) 2012 Zachry Thayer. All rights reserved.
 //
 
-#import "ZTRadialTool.h"
+#import "ZTRadialToolV.h"
 #import "../ZTCategories.h"
+#import "../ZTHelpers.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -15,7 +16,7 @@ static const unsigned int ZTRTFocusViewTag = 0x0f0c05;
 static const unsigned int ZTRTToolTipsViewTag = 0x7001719;
 
 
-@interface ZTRadialTool ()
+@interface ZTRadialToolV ()
 
 @property (nonatomic, strong)  UIView *toolTipsView;
 
@@ -30,7 +31,7 @@ static const unsigned int ZTRTToolTipsViewTag = 0x7001719;
 
 @end
 
-@implementation ZTRadialTool
+@implementation ZTRadialToolV
 
 @synthesize toolTipsView;
 @synthesize toolTipsRadius;
@@ -45,7 +46,7 @@ static const unsigned int ZTRTToolTipsViewTag = 0x7001719;
 
 #pragma mark - Lifcycle
 
-- (void)initialize
+ZTKViewInitialize
 {
     
     [self addSubview:self.toolTipsView];
@@ -58,37 +59,6 @@ static const unsigned int ZTRTToolTipsViewTag = 0x7001719;
         
     //self.userInteractionEnabled = NO;
     
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        [self initialize];
-    }
-    
-    return self;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-        [self initialize];
-    }
-    
-    return self;
 }
 
 - (void)dealloc

@@ -1,6 +1,6 @@
 //
 //  ZTTVCTemplateLibrary.h
-//  
+//  ZTKit
 //
 //  Created by Zachry Thayer on 10/3/11.
 //  Copyright (c) 2011 Zachry Thayer. All rights reserved.

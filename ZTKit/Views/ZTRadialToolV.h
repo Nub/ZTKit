@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZTRadialTool : UIView
+@interface ZTRadialToolV : UIView
 
 
 typedef enum

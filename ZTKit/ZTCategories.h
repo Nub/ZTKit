@@ -22,8 +22,10 @@
 #pragma mark - Foundation
 
 #import "Categories/NSArray+Access.h"
-#import "Categories/NSData+Additions.h
+#import "Categories/NSData+Additions.h"
 #import "Categories/NSString+Additions.h"
+#import "Categories/NSURLConnection+BlockPatch.h"
+#import "Categories/NSDictionary+KVCArray.h"
 
 #pragma mark - 3RD Party
 

@@ -6,11 +6,12 @@
 //  Copyright (c) 2012 Zachry Thayer. All rights reserved.
 //
 
-#import "ZTDrawView.h"
+#import "ZTDrawV.h"
 
 #import "../ZTCategories.h"
+#import "../ZTHelpers.h"
 
-@interface ZTDrawView ()
+@interface ZTDrawV ()
 
 @property (nonatomic) CGPoint previousPoint1;
 @property (nonatomic) CGPoint previousPoint2;
@@ -22,13 +23,14 @@
 @property (nonatomic) CGPoint mid2;
 
 @property (nonatomic, strong) UIImage* bufferImage;
+@property (nonatomic)         CGSize   bufferSize;
 @property (nonatomic, strong) NSMutableArray* paths;
 @property (nonatomic, strong) NSMutableArray* pathColors;
-
 
 @property (nonatomic) BOOL needsToRedraw;
 
 - (CGPoint)pointBetween:(CGPoint)point1 andPoint:(CGPoint)point2;
+- (CGRect) CGRectContainingPoints:(int) pointCount, ...;
 
 - (void)initialize;
 
@@ -36,7 +38,7 @@
 
 #pragma mark - Implemetation
 
-@implementation ZTDrawView
+@implementation ZTDrawV 
 
 #pragma mark Public variables
 @synthesize brushSize;
@@ -53,6 +55,7 @@
 @synthesize mid2;
 
 @synthesize bufferImage;
+@synthesize bufferSize;
 @synthesize paths;
 @synthesize pathColors;
 
@@ -60,46 +63,25 @@
 
 #pragma mark - Lifecycle
 
-- (void)initialize
+ZTKViewInitialize
 {
     brushSize = 5.0f;
     brushColor = [UIColor redColor];
     
     self.needsToRedraw = NO;
-}
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self initialize];
-    }
-    return self;
+    self.bufferSize = self.bounds.size;
+    
+    self.clearsContextBeforeDrawing = NO;
+    
 }
 
 - (void)dealloc
 {
-    
-    bufferImage = nil;
-    
+    self.pathColors = nil;
+    self.paths = nil;
+    self.bufferImage = nil;
+    self.brushColor = nil;
 }
 
 #pragma mark - Touch
@@ -135,10 +117,53 @@
         self.mid1 = [self pointBetween:self.previousPoint1 andPoint:self.previousPoint2];
         self.mid2 = [self pointBetween:self.currentPoint andPoint:self.previousPoint1];
         
+        UIBezierPath* newPath = [UIBezierPath bezierPath];
+        
+        [newPath moveToPoint:self.mid1];
+        [newPath addQuadCurveToPoint:self.mid2 controlPoint:self.previousPoint1];
+        [newPath setLineWidth:self.brushSize];
+        [newPath setLineCapStyle:kCGLineCapRound];
+        
+        //Save
+        [self.paths addObject:newPath];
+        [self.pathColors addObject:self.brushColor];
+        
         self.needsToRedraw = YES;
-        [self setNeedsDisplay];
+        [self setNeedsDisplayInRect:[self CGRectContainingPoints:3, self.mid1, self.mid2, self.previousPoint1]];
     }
     
+}
+
+#define ASSUME_VALUE(a, b, lop) if((b) lop (a)){(a) = (b);}
+
+- (CGRect) CGRectContainingPoints:(int) pointCount, ...
+{
+    va_list vl;
+    va_start(vl, pointCount);
+    
+    //Create inverted rect
+    CGRect theRect = CGRectMake(FLT_MAX, FLT_MAX, FLT_MIN, FLT_MIN);
+    CGFloat greatestX = FLT_MIN, greatestY = FLT_MIN;
+    
+    for (int i = 0; i < pointCount; i++)
+    {
+        CGPoint point = va_arg(vl, CGPoint);
+        
+        ASSUME_VALUE(theRect.origin.x, point.x, <);
+        theRect.origin.x -= self.brushSize;
+        ASSUME_VALUE(theRect.origin.y, point.y, <);
+        theRect.origin.y -= self.brushSize;
+        
+        ASSUME_VALUE(greatestX, point.x, >);
+        theRect.size.width = greatestX - theRect.origin.x + self.brushSize;
+        ASSUME_VALUE(greatestY, point.y, >);
+        theRect.size.height = greatestY - theRect.origin.y + self.brushSize;
+        
+    }
+    
+    va_end(vl);
+    
+    return theRect;
 }
 
 #pragma mark - Display
@@ -146,55 +171,48 @@
 - (void)drawRect:(CGRect)rect
 {
     
-    // Avoid overdraw
-    if (self.needsToRedraw) 
-    {
-        //Render to buffer
-        UIGraphicsBeginImageContext(self.frame.size);
-        [self.bufferImage drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        self.bufferImage = nil;
-        
-        UIBezierPath* newPath = [UIBezierPath bezierPath];
-        
-        [newPath moveToPoint:self.mid1];
-        [newPath addQuadCurveToPoint:self.mid2 controlPoint:self.previousPoint1];
-        [newPath setLineWidth:self.brushSize];
-        [newPath setLineCapStyle:kCGLineCapRound];
-        [self.brushColor setStroke];
-        [newPath stroke];
-        
-        //Save
-        [self.paths addObject:newPath];
-        [self.pathColors addObject:self.brushColor];
-        
-        
-        /*
-         
-         CoreGraphics version
-         
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        
-        CGContextMoveToPoint(context, self.mid1.x, self.mid1.y);
-        // Use QuadCurve is the key
-        CGContextAddQuadCurveToPoint(context, self.previousPoint1.x, self.previousPoint1.y, self.mid2.x, self.mid2.y); 
-        
-        CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineWidth(context, brushSize);
-        CGContextSetStrokeColorWithColor(context, [brushColor CGColor]);
-       // CGContextSetRGBStrokeColor(context, 1.0, 0.0, 0.0, 1.0);
-        CGContextStrokePath(context);
-         */
-        
-        self.bufferImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        self.needsToRedraw = NO;
+#define RENDER_OFFSCREEN 1
+    
+#ifdef RENDER_OFFSCREEN
 
+    UIGraphicsBeginImageContextWithOptions(self.bufferSize, NO, 0.0f);
+   
+    if (self.bufferImage)
+    {
+        [self.bufferImage drawInRect:self.bounds];
+    }
+
+#endif
+    
+    UIBezierPath* lastPath = [self.paths lastObject];
+    
+    if (lastPath)
+    {
+        [self.brushColor setStroke];
+        [lastPath stroke];
     }
     
-    [self.bufferImage drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    
+#ifdef RENDER_OFFSCREEN
 
+    self.bufferImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    if (self.bufferImage)
+    {
+        [self.bufferImage drawInRect:self.bounds];
+    }
+    
+#endif
+    
+}
+
+- (void) clear
+{
+    
+    self.bufferImage = nil;
+    self.paths = nil;
+    self.pathColors = nil;
+    
 }
 
 #pragma mark - Data

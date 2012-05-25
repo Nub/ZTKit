@@ -12,15 +12,17 @@
 
 @protocol ZTInfinitePagedVDataSource
 
+@required
 - (NSInteger)numberOfPagesInPagedView:(ZTInfinitePagedV *)pagedView;
 
 // 0 indexed
-- (UIViewController*)pagedView:(ZTInfinitePagedV *)pagedView viewControllerForPage:(NSInteger)page;
+- (UIView*)pagedView:(ZTInfinitePagedV *)pagedView viewForPage:(NSInteger)page;
 
 @end
 
 @protocol ZTInfinitePagedVDelegate <UIScrollViewDelegate>
 
+@optional
 // Page is going to become within 1 of onscreen page
 - (void)pagedView:(ZTInfinitePagedV *)pagedView willNeedPage:(NSInteger)page;
 
@@ -35,26 +37,11 @@
 
 
 @interface ZTInfinitePagedV : UIScrollView <UIScrollViewDelegate>
-{
-    NSMutableArray *pageViewControllers;
-    
-    NSInteger _internalPage;
-    NSInteger page;
-    
-    id <ZTInfinitePagedVDelegate> delegate;
-    id <ZTInfinitePagedVDataSource> dataSource;
-    
-    BOOL infinitePaging;
-    
-}
 
+@property (nonatomic, weak) id <ZTInfinitePagedVDelegate> delegate;
+@property (nonatomic, weak) id <ZTInfinitePagedVDataSource> dataSource;
 
-@property (nonatomic, assign) id <ZTInfinitePagedVDelegate> delegate;
-@property (nonatomic, assign) id <ZTInfinitePagedVDataSource> dataSource;
+@property (nonatomic, readonly) NSInteger page;
 
-@property (nonatomic, retain) NSMutableArray *pageViewControllers;
-@property (nonatomic) NSInteger page;
-
-@property (nonatomic) BOOL infinitePaging;
 
 @end

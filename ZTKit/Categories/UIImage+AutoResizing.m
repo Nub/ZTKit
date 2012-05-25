@@ -8,12 +8,7 @@
 
 #import "UIImage+AutoResizing.h"
 
-unsigned int colorFromDataAtPoint(unsigned int* data, unsigned int dataStride,CGPoint point);
-unsigned int colorFromDataAtPoint(unsigned int* data, unsigned int dataStride,CGPoint point)
-{
-    unsigned int offset = (dataStride * point.y) + point.x;
-    return data[offset];
-}
+#import "../Utilities/ZTColorTools.h"
 
 @implementation UIImage (AutoResizing)
 

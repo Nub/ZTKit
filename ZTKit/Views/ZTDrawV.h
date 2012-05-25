@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZTDrawView : UIView
+@interface ZTDrawV : UIView
 
 @property (nonatomic) CGFloat brushSize;
 @property (nonatomic) UIColor* brushColor;
+
+- (void) clear;
 
 - (NSString*)SVGRepresentation;
 

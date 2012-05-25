@@ -10,7 +10,8 @@
 
 @interface UIImage (Adjustment)
 
-//- (UIImage*)imageFittingToRect:(CGRect)aRect;
 - (UIImage*)imageFittingToRect:(CGRect)aRect maintainAspect:(BOOL)maintainAspect;
+- (UIImage*)imageSizedToRect:(CGRect)aRect maintainAspect:(BOOL)maintainAspect;
+
 
 @end

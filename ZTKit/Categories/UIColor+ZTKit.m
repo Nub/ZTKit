@@ -6,13 +6,14 @@
 //  Copyright (c) 2011 Zachry Thayer. All rights reserved.
 //
 
-#import "UIColor+Additions.h"
+#import "UIColor+ZTKit.h"
 
 @implementation UIColor (ZTKit)
 
 - (UIColor *)colorByChangingBrighness:(CGFloat)percent
 {
-	// oldComponents is the array INSIDE the original color
+	/*
+    // oldComponents is the array INSIDE the original color
 	// changing these changes the original, so we copy it
 	CGFloat *oldComponents = (CGFloat *)CGColorGetComponents([self CGColor]);
 	CGFloat newComponents[4];
@@ -47,8 +48,23 @@
     
 	UIColor *retColor = [UIColor colorWithCGColor:newColor];
 	CGColorRelease(newColor);
+     */
     
-	return retColor;
+    CGFloat h,s,b,a;
+    [self getHue:&h saturation:&s brightness:&b alpha:&a];
+    
+    if (percent < 1.f) 
+    {
+        b *= percent;
+    }
+    else
+    {
+        percent -= 1.f - b;
+        b = 1.f;
+        s /= percent;
+    }
+    
+	return [UIColor colorWithHue:h saturation:s brightness:b alpha:a];
 }
 
 - (UIColor *)colorByChangingAlphaTo:(CGFloat)newAlpha
